@@ -149,10 +149,15 @@ plot(result, plots = "bar", custom = FALSE)
 X20211026_processed <- store(X20211026_processed, result, name = "Segment")
 ```
 
+```{r}
+## change factor levels
+X20211026_processed <- mutate(X20211026_processed, frequency = refactor(frequency, levs = c("1 per 4-6 month","1 per 2-3 month","2-3 per month","1 per month","1-2 per week","3-6 per week","everyday"), repl = ""))
+```
+
 
 ```{r}
 ## recode variable
-X20211026_processed <- mutate(X20211026_processed, Segment_rc = car::Recode(Segment, "1='Biishiki';2='Otsukiai';3='Business person';4='Totonoi seeker';5='Body recovery';6='Sauna mankitsu'"))
+X20211026_processed <- mutate(X20211026_processed, Segment_rc = car::Recode(Segment, "1='Beauty';2='Otsukiai';3='Business person';4='Sadou seeker';5='Body recovery';6='Perfect mankitsu'"))
 ```
 
 ```{r fig.width = 7, fig.height = 4.31, dpi = 96}
@@ -251,3 +256,35 @@ summary(result, check = c("observed", "expected"))
 plot(result, check = c("observed", "expected"), custom = FALSE)
 ```
 
+```{r}
+result <- pivotr(
+  X20211026_processed, 
+  cvars = "Segment_rc", 
+  nvar = "expenditure", 
+  nr = Inf
+)
+summary(result)
+# dtab(result) %>% render()
+```
+
+```{r}
+result <- pivotr(
+  X20211026_processed, 
+  cvars = "Segment_rc", 
+  nvar = "expenditure", 
+  fun = "median", 
+  nr = Inf
+)
+summary(result)
+# dtab(result) %>% render()
+```
+
+```{r fig.width = 10, fig.height = 8.62, dpi = 96}
+result <- cross_tabs(
+  X20211026_processed, 
+  var1 = "frequency", 
+  var2 = "Segment_rc"
+)
+summary(result, check = c("observed", "expected"))
+plot(result, check = c("observed", "expected"), custom = FALSE)
+```
