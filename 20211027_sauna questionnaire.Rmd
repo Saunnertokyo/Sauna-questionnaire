@@ -157,7 +157,7 @@ X20211026_processed <- mutate(X20211026_processed, frequency = refactor(frequenc
 
 ```{r}
 ## recode variable
-X20211026_processed <- mutate(X20211026_processed, Segment_rc = car::Recode(Segment, "1='Beauty';2='Otsukiai';3='Business person';4='Sadou seeker';5='Body recovery';6='Perfect mankitsu'"))
+X20211026_processed <- mutate(X20211026_processed, Segment_rc = car::Recode(Segment, "1='Beauty';2='Otsukiai';3='Business person';4='Traveler';5='Body recovery';6='Perfect mankitsu'"))
 ```
 
 ```{r fig.width = 7, fig.height = 4.31, dpi = 96}
